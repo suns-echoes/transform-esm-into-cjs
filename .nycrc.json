@@ -1,0 +1,25 @@
+{
+	"all": false,
+	"cache": false,
+	"check-coverage": true,
+	"exclude": [
+		"**/*.spec.js",
+		"spec/samples/**/*.js"
+	],
+	"extends": "@istanbuljs/nyc-config-babel",
+	"include": [
+		"src/**/*.js",
+		"spec/**/*.js"
+	],
+	"instrument": true,
+	"no-clean": true,
+	"reporter": [
+		"text"
+	],
+	"silent": false,
+	"skip-full": false,
+	"branches": 100,
+	"lines": 100,
+	"functions": 100,
+	"statements": 100
+}

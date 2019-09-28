@@ -1,0 +1,6 @@
+.nyc_output/
+.nwjs/
+coverage/
+dist/
+node_modules/
+temp/

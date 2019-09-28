@@ -1,0 +1,10 @@
+{
+	"files.eol": "\n",
+	"files.insertFinalNewline": true,
+	"files.trimTrailingWhitespace": true,
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+	"editor.renderWhitespace": "all",
+	"editor.rulers": [80, 120],
+	"javascript.validate.enable": false
+}
