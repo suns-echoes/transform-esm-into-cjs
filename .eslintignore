@@ -1,5 +1,7 @@
 /dist/
 .nyc_output/
 coverage/
+spec/expected/
+spec/samples/
 node_modules/
 temp/
