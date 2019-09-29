@@ -1,11 +1,11 @@
 function getDefaultFunctionName(statement) {
-	const matchDefaultFunctionName = statement.match(/^export\s+default\s+(?:class|function(?:\s*\*)?)\s+([a-zA-Z_$][\w$]*)/);
+	const matchDefaultFunctionName = statement.match(/^export\s+default\s+(?:class|(?:async\s+)?function(?:\s*\*)?)\s+([a-zA-Z_$][\w$]*)/);
 
 	return matchDefaultFunctionName && matchDefaultFunctionName[1] || null;
 }
 
 function getNamedVariableName(statement) {
-	const matchNamedVariableName = statement.match(/^export\s+(?:const|let|var|class|function(?:\s*\*)?)\s+([a-zA-Z_$][\w$]*)/);
+	const matchNamedVariableName = statement.match(/^export\s+(?:const|let|var|class|(?:async\s+)?function(?:\s*\*)?)\s+([a-zA-Z_$][\w$]*)/);
 
 	return matchNamedVariableName[1];
 }
@@ -24,7 +24,7 @@ function findExports(source) {
 	const matchIdentifierPart = '[a-zA-Z_$][\\w$]*';
 	const matchAliasPart = `(?:\\s+as\\s+${matchIdentifierPart}\\s*)?`;
 	const matchAliasedPart = `${matchIdentifierPart}${matchAliasPart}`;
-	const matchExports = new RegExp(`^export\\s*(?:\\{\\s*${matchAliasedPart}(?:,\\s*${matchAliasedPart})*,?\\s*\\}\\s*(?:;\\s*\\n?)?|(?:default\\s+)?(?:(?:(?:const|let|var|class|function(?:\\s*\\*)?)\\s+)?${matchIdentifierPart}|[[{(\`'"0-9]))`, 'gm');
+	const matchExports = new RegExp(`^export\\s*(?:\\{\\s*${matchAliasedPart}(?:,\\s*${matchAliasedPart})*,?\\s*\\}\\s*(?:;\\s*\\n?)?|(?:default\\s+)?(?:(?:(?:const|let|var|class|(?:async\\s+)?function(?:\\s*\\*)?)\\s+)?${matchIdentifierPart}|[[{(\`'"0-9]))`, 'gm');
 
 	let matches = [];
 	let match;
@@ -32,7 +32,7 @@ function findExports(source) {
 	while ((match = matchExports.exec(source)) !== null) {
 		const { 0: statement, index } = match;
 		const isDefaultObject = /^export\s+default\s+[[{(`'"0-9]/.test(statement);
-		const isDefaultFunction = /^export\s+default\s+(?:class|function(?:\s*\*)?)\b/.test(statement);
+		const isDefaultFunction = /^export\s+default\s+(?:class|(?:async\s+)?function(?:\s*\*)?)\b/.test(statement);
 		const isDefaultValue = (!isDefaultFunction && /^export\s+default\s+[a-zA-Z_$][\\w$]*/.test(statement));
 
 		if (isDefaultObject || isDefaultFunction || isDefaultValue) {
@@ -49,7 +49,7 @@ function findExports(source) {
 			});
 		}
 		else {
-			const isNamedVarialbe = /^export\s+(?:const|let|var|class|function(?:\s*\*)?)\s+(?:[a-zA-Z_$][\w$]*)\b/.test(statement);
+			const isNamedVarialbe = /^export\s+(?:const|let|var|class|(?:async\s+)?function(?:\s*\*)?)\s+(?:[a-zA-Z_$][\w$]*)\b/.test(statement);
 			let named = [];
 
 			if (isNamedVarialbe) {

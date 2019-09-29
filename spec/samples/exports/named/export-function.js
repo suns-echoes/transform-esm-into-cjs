@@ -10,6 +10,10 @@ export function* getNext() {
 	yield Math.random();
 }
 
+export async function sleep(ms) {
+	await _sleep(ms);
+}
+
 export {
 	getPower,
 	getPower as calculatePower,
