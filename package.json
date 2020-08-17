@@ -1,7 +1,7 @@
 {
 	"name": "@suns-echoes/transform-esm-into-cjs",
 	"main": "index.js",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Transform ES modules into CommonJS",
 	"scripts": {
 		"dev": "node -r esm index.js",

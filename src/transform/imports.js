@@ -4,7 +4,14 @@ function findImports(source) {
 	const matchAliasPart = `(?:\\s+as\\s+${matchIdentifierPart})?`;
 	const matchAliasedPart = `\\s*${matchIdentifierPart}${matchAliasPart}`;
 	const matchFilepathPart = '[\'"][^\'"\\n]+[\'"]';
-	const matchImport = new RegExp(`^[ \t]*import\\s*(?:${matchIdentifierPart}|(?:${matchIdentifierPart}\\s*,\\s*)?${matchModuleAliasPart}|(?:${matchIdentifierPart}\\s*,\\s*)?(?:${matchIdentifierPart}\\s*,\\s*)?\\{${matchAliasedPart}(?:\\s*,${matchAliasedPart})*\\s*\\})\\s*from\\s*${matchFilepathPart}(\\s*;)?`, 'gm');
+	const matchImport = new RegExp(
+		'^[ \t]*import\\s*' +
+		`(?:${matchIdentifierPart}|` +
+		`(?:${matchIdentifierPart}\\s*,\\s*)?${matchModuleAliasPart}|` +
+		`(?:${matchIdentifierPart}\\s*,\\s*)?(?:${matchIdentifierPart}\\s*,\\s*)?` +
+		'\\{' +
+		`${matchAliasedPart}(?:\\s*,${matchAliasedPart})*(\\s*,\\s*${matchAliasedPart}(?:\\s*,${matchAliasedPart})*\\s*,?)*` +
+		`\\s*\\})\\s*from\\s*${matchFilepathPart}(\\s*;)?`, 'gm');
 
 	const matchDefaultImport = /import\s*([a-zA-Z_$][\w$]*)/;
 	const matchModuleAlias = new RegExp(`\\*\\s+as\\s+(${matchIdentifierPart})`);
