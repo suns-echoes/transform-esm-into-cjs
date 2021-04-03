@@ -1,7 +1,7 @@
 Transform ES modules into CommonJS
 ==================================
 
-The `transform-esm-into-cjs` utility transforms ES modules into CommonJS without adding any unnecessary code.
+The `transform-esm-into-cjs` utility transforms ES6 modules into CommonJS without adding any unnecessary code.
 
 Warning: *If module exports default and named members, default member will be named "default".*
 
@@ -78,4 +78,4 @@ License
 
 Licensed under MIT
 
-Copyright (c) 2019 Aneta Suns
+Copyright (c) 2021 Aneta Suns

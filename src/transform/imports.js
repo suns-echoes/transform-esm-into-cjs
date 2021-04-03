@@ -6,12 +6,13 @@ function findImports(source) {
 	const matchFilepathPart = '[\'"][^\'"\\n]+[\'"]';
 	const matchImport = new RegExp(
 		'^[ \t]*import\\s*' +
+		`(?:${matchFilepathPart}(\\s*;)?|` +
 		`(?:${matchIdentifierPart}|` +
 		`(?:${matchIdentifierPart}\\s*,\\s*)?${matchModuleAliasPart}|` +
 		`(?:${matchIdentifierPart}\\s*,\\s*)?(?:${matchIdentifierPart}\\s*,\\s*)?` +
 		'\\{' +
 		`${matchAliasedPart}(?:\\s*,${matchAliasedPart})*(\\s*,\\s*${matchAliasedPart}(?:\\s*,${matchAliasedPart})*\\s*,?)*` +
-		`\\s*\\})\\s*from\\s*${matchFilepathPart}(\\s*;)?`, 'gm');
+		`\\s*\\})\\s*from\\s*${matchFilepathPart}(\\s*;)?)`, 'gm');
 
 	const matchDefaultImport = /import\s*([a-zA-Z_$][\w$]*)/;
 	const matchModuleAlias = new RegExp(`\\*\\s+as\\s+(${matchIdentifierPart})`);
@@ -98,44 +99,49 @@ function transformImports(source) {
 		const { default: defName, moduleAlias, named } = members;
 		let requireStatement = '';
 
-		if (defName) {
-			requireStatement += `const ${defName} = require('${filepath}')`;
+		if (!defName && !moduleAlias && !named) {
+			requireStatement = `require('${filepath}');`;
+		}
+		else {
+			if (defName) {
+				requireStatement += `const ${defName} = require('${filepath}')`;
 
-			if (explicitDefaultImportsByPath[filepath]) {
-				requireStatement += '.default';
-				mixedImports = true;
+				if (explicitDefaultImportsByPath[filepath]) {
+					requireStatement += '.default';
+					mixedImports = true;
 
-				if (named) {
-					requireStatement += ';\n';
-				}
-				else if (moduleAlias) {
-					requireStatement += ';\n';
+					if (named) {
+						requireStatement += ';\n';
+					}
+					else if (moduleAlias) {
+						requireStatement += ';\n';
+					}
+					else {
+						requireStatement += ';';
+					}
 				}
 				else {
 					requireStatement += ';';
 				}
 			}
-			else {
-				requireStatement += ';';
+
+			if (moduleAlias) {
+				requireStatement += `const ${moduleAlias} = require('${filepath}');`;
 			}
-		}
 
-		if (moduleAlias) {
-			requireStatement += `const ${moduleAlias} = require('${filepath}');`;
-		}
+			if (named) {
+				let namedMembers = '';
 
-		if (named) {
-			let namedMembers = '';
+				named.forEach(({ name, alias }) => {
+					namedMembers += `, ${name}`;
 
-			named.forEach(({ name, alias }) => {
-				namedMembers += `, ${name}`;
+					if (alias) {
+						namedMembers += `: ${alias}`;
+					}
+				});
 
-				if (alias) {
-					namedMembers += `: ${alias}`;
-				}
-			});
-
-			requireStatement += `const { ${namedMembers.substr(2)} } = require('${filepath}');`;
+				requireStatement += `const { ${namedMembers.substr(2)} } = require('${filepath}');`;
+			}
 		}
 
 		newSource += source.substring(position, index) + requireStatement;

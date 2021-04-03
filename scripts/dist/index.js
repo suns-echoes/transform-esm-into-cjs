@@ -10,14 +10,14 @@ async function runDist() {
 
 	dist.hints();
 
+	console.log(' - Cleanup dist folder');
+	await dist.cleanup();
+
 	console.log(' - Run linter');
 	await dist.runLinter();
 
 	console.log(' - Run tests');
 	await dist.runTests();
-
-	console.log(' - Cleanup dist folder');
-	await dist.cleanup();
 
 	console.log(' - Pack modules');
 	await dist.packModules();

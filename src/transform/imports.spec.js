@@ -2,6 +2,15 @@ import { transformImports } from './imports';
 
 
 describe('transformImports', () => {
+	it('returns transformed source code (file)', () => {
+		const code = 'import \'mod\';';
+		const expectedCode = 'require(\'mod\');\n';
+
+		const transformedCode = transformImports(code).source;
+
+		expect(transformedCode).to.be.equal(expectedCode);
+	});
+
 	it('returns transformed source code (default)', () => {
 		const code = 'import def from \'mod\';';
 		const expectedCode = 'const def = require(\'mod\');\n';

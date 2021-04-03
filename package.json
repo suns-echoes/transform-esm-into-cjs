@@ -1,7 +1,7 @@
 {
 	"name": "@suns-echoes/transform-esm-into-cjs",
 	"main": "index.js",
-	"version": "0.1.2",
+	"version": "0.2.0",
 	"description": "Transform ES modules into CommonJS",
 	"scripts": {
 		"dev": "node -r esm index.js",
@@ -10,7 +10,8 @@
 		"test:watch": "cross-env NODE_ENV=test mocha --watch",
 		"lint": "eslint .",
 		"dist": "node -r esm scripts/dist",
-		"release": "npm run dist && cd dist && npm publish"
+		"release": "npm run dist && cd dist && echo Login to NPM: && npm login && npm publish --access public && npm logout",
+		"release:priv": "npm run dist && cd dist && echo Login to NPM: && npm login && npm publish --access restricted && npm logout"
 	},
 	"homepage": "https://github.com/suns-echoes/transform-esm-into-cjs",
 	"repository": {
@@ -20,20 +21,20 @@
 	"author": "Aneta Suns <suns.echoes@gmail.com>",
 	"license": "MIT",
 	"devDependencies": {
-		"@babel/cli": "^7.10.5",
-		"@babel/core": "^7.11.1",
-		"@babel/node": "^7.10.5",
-		"@babel/preset-env": "^7.11.0",
-		"@babel/register": "^7.10.5",
+		"@babel/cli": "^7.13.14",
+		"@babel/core": "^7.13.14",
+		"@babel/node": "^7.13.13",
+		"@babel/preset-env": "^7.13.12",
+		"@babel/register": "^7.13.14",
 		"@istanbuljs/nyc-config-babel": "^2.1.1",
 		"@suns-echoes/exec": "^0.1.2",
 		"@suns-echoes/file-system-utils": "^0.8.2",
 		"babel-eslint": "^10.1.0",
 		"babel-plugin-istanbul": "^5.2.0",
-		"chai": "^4.2.0",
+		"chai": "^4.3.4",
 		"cross-env": "^5.2.0",
 		"eslint": "^6.8.0",
-		"eslint-plugin-import": "^2.22.0",
+		"eslint-plugin-import": "^2.22.1",
 		"esm": "^3.2.25",
 		"fs-extra": "^8.1.0",
 		"mocha": "^6.2.3",
@@ -41,6 +42,6 @@
 		"rollup": "^1.32.1",
 		"rollup-plugin-commonjs": "^10.1.0",
 		"rollup-plugin-node-resolve": "^5.2.0",
-		"rollup-plugin-terser": "^7.0.0"
+		"rollup-plugin-terser": "^7.0.2"
 	}
 }
