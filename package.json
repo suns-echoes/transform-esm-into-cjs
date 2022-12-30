@@ -37,7 +37,7 @@
 		"eslint-plugin-import": "^2.22.1",
 		"esm": "^3.2.25",
 		"fs-extra": "^8.1.0",
-		"mocha": "^6.2.3",
+		"mocha": "^10.2.0",
 		"nyc": "^14.1.1",
 		"rollup": "^1.32.1",
 		"rollup-plugin-commonjs": "^10.1.0",
